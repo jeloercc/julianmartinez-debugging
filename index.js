@@ -25,59 +25,71 @@ function getRandomNumber(min, max) {
 function checkGuess() {
   // Get value from guess input element
   const guess = parseInt(guessInput.value, 10);
+// Strech goal Bug validate the guess is a number between 1 and 99 
+  if (guess < 1 || guess > 99 || isNaN(guess)) {
+  alert('Please enter a valid number between 1 and 99');
+  return;
+}
   attempts = attempts + 1;
-
   hideAllMessages();
 
   if (guess === targetNumber) {
     numberOfGuessesMessage.style.display = '';
-    numberOfGuessesMessage.innerHTML = `You made ${attempts} guesses`;
-
+    numberOfGuessesMessage.textContent = `You made ${attempts} guesses`;
     correctMessage.style.display = '';
-
     submitButton.disabled = true;
     guessInput.disabled = true;
-  }
-
-  if (guess !== targetNumber) {
+// Bug 1 fixed: changed second "if" to "else" so only one block runs,removed
+// (guess !== targetNumber)" to just "else" since it's the only remaining possibility.
+  } else {
     if (guess < targetNumber) {
       tooLowMessage.style.display = '';
     } else {
-      tooLowMessage.style.display = '';
+// Bug 2 fixed: changed "tooLowMessage" to "tooHighMessage".
+      tooHighMessage.style.display = '';
     }
 
     const remainingAttempts = maxNumberOfAttempts - attempts;
+// Strech goal Bug added pluralization for "guess"
+    let guessWord = (remainingAttempts === 1) ? 'guess' : 'guesses';
 
     numberOfGuessesMessage.style.display = '';
-    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
-  }
+    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} ${guessWord} remaining`;
 
-  if (attempts ==== maxNumberOfAttempts) {
+//3 Bug fixed the original code had a typo with "====" instead of "===".
+  if (attempts === maxNumberOfAttempts) {
     submitButton.disabled = true;
     guessInput.disabled = true;
+//4 Bug fixed: added "maxGuessesMessage.style.display = ''" to show the "max guesses reached" message,
+// when the player runs out of attempts.
+    maxGuessesMessage.style.display = '';
   }
-
-  guessInput.value = '';
+}
+  guessInput.value = ''
 
   resetButton.style.display = '';
 }
 
 function hideAllMessages() {
-  for (let elementIndex = 0; elementIndex <= messages.length; elementIndex++) {
+//5 bug fixed  changed <=  With <,when elementIndex reaches 5.
+  for (let elementIndex = 0; elementIndex < messages.length; elementIndex++) {
     messages[elementIndex].style.display = 'none';
   }
 }
-
-funtion setup() {
+//6 bug fixed changed "funtion" with function its the correct syntax 
+function setup() {
   // Get random number
   targetNumber = getRandomNumber(1, 100);
   console.log(`target number: ${targetNumber}`);
 
   // Reset number of attempts
-  maxNumberOfAttempts = 0;
+//7 Bug fixed: changed "maxNumberOfAttempts = 0" to "attempts = 0" 
+// maxNumberOfAttempts is a const (cannot be changed) and should always be 5.
+  attempts = 0;
 
   // Enable the input and submit button
-  submitButton.disabeld = false;
+//8 Bug fixed: "disabeld" was a spelling error, corrected to "disabled".
+  submitButton.disabled = false;
   guessInput.disabled = false;
 
   hideAllMessages();
