@@ -35,7 +35,7 @@ function checkGuess() {
 
   if (guess === targetNumber) {
     numberOfGuessesMessage.style.display = '';
-    numberOfGuessesMessage.innerHTML = `You made ${attempts} guesses`;
+    numberOfGuessesMessage.textContent = `You made ${attempts} guesses`;
     correctMessage.style.display = '';
     submitButton.disabled = true;
     guessInput.disabled = true;
